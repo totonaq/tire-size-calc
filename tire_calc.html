@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<title>Calc</title>
+	<style>
+		.calc-wrap {
+			display: -webkit-flex;
+			display: -moz-flex;
+			display: -ms-flex;
+			display: -o-flex;
+			display: flex;
+			flex-flow: row wrap;
+			max-width: 1000px;
+			margin-top: 50px;
+		}
+		.table-wrap,
+		.img-wrap {
+			width: 48%;
+		}
+		.table-wrap {
+			margin-right: 4%;
+		}
+		.img-old {
+			margin-bottom: 50px;
+		}
+		.img-old,
+		.img-new {
+			display: -webkit-flex;
+			display: -moz-flex;
+			display: -ms-flex;
+			display: -o-flex;
+			display: flex;
+			justify-content: space-around;
+		}
+		.img-old > div,
+		.img-new > div {
+			position: relative;
+			display: -webkit-flex;
+			display: -moz-flex;
+			display: -ms-flex;
+			display: -o-flex;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		#tireDiscImg,
+		#tireDiscImgNew {
+			position: absolute;
+		}
+		.dimension {
+			border: 1px solid #000;
+			border-color: transparent #000 transparent #000;
+			bottom: 0;
+			height: 110%;
+			position: absolute;
+			width: 100%;
+		}
+		.dimension.old-diameter,
+		.dimension.new-diameter {
+			border-color: #000 transparent #000 transparent;
+			border-left: 1px dashed #000;
+			height: 100%;
+			right: 0;
+			width: 110%;
+		}
+		.dimension.old-side-height,
+		.dimension.new-side-height,
+		.dimension.old-width,
+		.dimension.new-width {
+			border-top: 1px dashed #000;
+			left: 0;
+		}
+		.dimension > div {
+			position: absolute;
+			white-space: nowrap;
+		}
+
+		.dimension.old-side-height > div,
+		.dimension.new-side-height > div,
+		.dimension.old-width > div,
+		.dimension.new-width > div {
+			top: -20px;
+		}
+		.dimension.old-diameter > div,
+		.dimension.new-diameter > div {
+			left: -36px;
+			top: 50%;
+			transform: rotateZ(-90deg);
+		}
+		.speed-wrap {
+			display: -webkit-flex;
+			display: -moz-flex;
+			display: -ms-flex;
+			display: -o-flex;
+			display: flex;
+			flex-flow: row wrap;
+			
+		}
+		.speed-wrap .speed-text {
+			width: 50%;
+		}
+		.speedometer {
+			position: relative;
+			width: 50%;
+		}
+		#device-value {
+			width: 10%;
+		}
+		.speedometer img:first-child {
+			width: 100%;
+		}
+		.speedometer img:last-of-type {
+			left: 44%;
+			position: absolute;
+			/*transform: rotateZ(-80deg);*/
+			transform-origin: 50% 85.5%;
+			transition: all .5s ease-in-out;
+			top: 9%;
+			width: 14%;
+		}
+		/*.img-old-side,
+		.img-new-side {
+			margin-right: 150px;
+			
+		}*/
+		
+		/*.img-old-side,
+		.img-new-side {
+			position: relative;
+			display: -webkit-flex;
+			display: -moz-flex;
+			display: -ms-flex;
+			display: -o-flex;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			max-width: 200px;
+		}
+		#tireDiscImg,
+		#tireDiscImgNew {
+			position: absolute;	
+		}*/
+	</style>
+</head>
+<body>
+	<div class="calc-wrap">
+		<div class="table-wrap">
+			<table>
+				<tr>
+					<td>Размер шины</td>
+					<td><select name="w" id="tire_width_old">
+						<option value="135">135</option>
+						<option value="145">145</option>
+						<option value="155">155</option>
+						<option value="165">165</option>
+						<option value="175">175</option>
+						<option value="185">185</option>
+						<option value="195">195</option>
+						<option value="205" selected>205</option>
+						<option value="215">215</option>
+						<option value="225">225</option>
+						<option value="235">235</option>
+						<option value="245">245</option>
+						<option value="255">255</option>
+						<option value="265">265</option>
+						<option value="275">275</option>
+						<option value="285">285</option>
+						<option value="295">295</option>
+						<option value="305">305</option>
+						<option value="315">315</option>
+						<option value="325">325</option>
+						<option value="335">335</option>
+						<option value="345">345</option>
+						<option value="355">355</option>
+						<option value="365">365</option>
+						<option value="375">375</option>
+						<option value="385">385</option>
+						<option value="395">395</option>
+					</select>
+					<select name="h" id="tire_height_old">
+						<option value="25">25</option>
+						<option value="30">30</option>
+						<option value="35">35</option>
+						<option value="40">40</option>
+						<option value="45">45</option>
+						<option value="50">50</option>
+						<option value="55" selected>55</option>
+						<option value="60">60</option>
+						<option value="65">65</option>
+						<option value="70">70</option>
+						<option value="75">75</option>
+						<option value="80">80</option>
+						<option value="85">85</option>
+						<option value="90">90</option>
+						<option value="95">95</option>
+						<option value="100">100</option>
+					</select>
+					<select name="d" id="tire_diameter_old">
+						<option value="12">12</option>
+						<option value="13">13</option>
+						<option value="14">14</option>
+						<option value="15">15</option>
+						<option value="16" selected>16</option>
+						<option value="17">17</option>
+						<option value="18">18</option>
+						<option value="19">19</option>
+						<option value="20">20</option>
+						<option value="21">21</option>
+						<option value="22">22</option>
+						<option value="22.5">22.5</option>
+						<option value="23">23</option>
+						<option value="24">24</option>
+					</select></td>
+				</tr>
+				<tr>
+					<td>Размер шины для замены</td>
+					<td><select name="w" id="tire_width_new">
+						<option value="135">135</option>
+						<option value="145">145</option>
+						<option value="155">155</option>
+						<option value="165">165</option>
+						<option value="175">175</option>
+						<option value="185">185</option>
+						<option value="195" selected>195</option>
+						<option value="205">205</option>
+						<option value="215">215</option>
+						<option value="225">225</option>
+						<option value="235">235</option>
+						<option value="245">245</option>
+						<option value="255">255</option>
+						<option value="265">265</option>
+						<option value="275">275</option>
+						<option value="285">285</option>
+						<option value="295">295</option>
+						<option value="305">305</option>
+						<option value="315">315</option>
+						<option value="325">325</option>
+						<option value="335">335</option>
+						<option value="345">345</option>
+						<option value="355">355</option>
+						<option value="365">365</option>
+						<option value="375">375</option>
+						<option value="385">385</option>
+						<option value="395">395</option>
+					</select>
+					<select name="h" id="tire_height_new">
+						<option value="25">25</option>
+						<option value="30">30</option>
+						<option value="35">35</option>
+						<option value="40">40</option>
+						<option value="45">45</option>
+						<option value="50" selected>50</option>
+						<option value="55">55</option>
+						<option value="60">60</option>
+						<option value="65">65</option>
+						<option value="70">70</option>
+						<option value="75">75</option>
+						<option value="80">80</option>
+						<option value="85">85</option>
+						<option value="90">90</option>
+						<option value="95">95</option>
+						<option value="100">100</option>
+					</select>
+					<select name="d" id="tire_diameter_new">
+						<option value="12">12</option>
+						<option value="13">13</option>
+						<option value="14">14</option>
+						<option value="15" selected>15</option>
+						<option value="16">16</option>
+						<option value="17">17</option>
+						<option value="18">18</option>
+						<option value="19">19</option>
+						<option value="20">20</option>
+						<option value="21">21</option>
+						<option value="22">22</option>
+						<option value="22.5">22.5</option>
+						<option value="23">23</option>
+						<option value="24">24</option>
+					</select></td>
+				</tr>
+				<tr>
+					<td>Нажмите для расчета</td>
+					<!----><td><button id="calc_button">Рассчитать</button></td>
+				</tr>
+			</table>
+			<div class="switcher">
+				<button id="mm">мм</button>
+				<button id="inches">дюймы</button>
+			</div>
+			<table id="results">
+				<tr>
+					<th>Показатель</th>
+					<th>Старая</th>
+					<th>Новая</th>
+					<th>Разница</th>
+				</tr>
+				<tr id="diameter">
+					<th>Диаметр</th>
+					<td class="measure old"></td>
+					<td class="measure new"></td>
+					<td class="measure diff"></td>
+				</tr>
+				<tr id="width">
+					<th>Ширина</th>
+					<td class="measure old"></td>
+					<td class="measure new"></td>
+					<td class="measure diff"></td>
+				</tr>
+				<tr id="circumference">
+					<th>Длина окружности</th>
+					<td class="measure old"></td>
+					<td class="measure new"></td>
+					<td class="measure diff"></td>
+				</tr>
+				<tr id="sidewall_height">
+					<th>Высота профиля</th>
+					<td class="measure old"></td>
+					<td class="measure new"></td>
+					<td class="measure diff"></td>
+				</tr>
+				<tr id="rev">
+					<th>Оборотов на км</th>
+					<td class="old"></td>
+					<td class="new"></td>
+					<td class="diff"></td>
+				</tr>
+				<tr id="clearence">
+					<th>Изменение клиренса</th>
+					<td colspan="3" class="measure diff"></td>
+					
+				</tr>
+			</table>
+			<div class="speed-wrap">
+				<p class="speed-text" id="device-text"></p>
+				<p class="speed-text" id="real-text"></p>
+				<div class="speedometer">
+					<img src="speed.png" alt="">
+					<img id="device-speed" src="arrow.svg" alt="">
+					
+				</div>
+				
+				<div class="speedometer">
+					<img src="speed.png" alt="">
+					<img id="real-speed" src="arrow.svg" alt="">
+					
+				</div>
+				<!----><p class="speed-text"><button id="up">up</button><button id="down">down</button><input id="device-value" type="text" value="60">км/ч</p>
+				<!----><p class="speed-text" id="real-value"></p>
+			</div>
+			
+		</div>
+		
+		<!--<canvas id="tireSide" width="300" height="300"></canvas>
+		
+		<canvas id="tireFront" width="150" height="300"></canvas>-->
+		<div class="img-wrap">
+			<div class="img-old">
+				<div class="img-old-side">
+					<img id="tireSideImg" src="sideTire.png" alt="">
+					<img id="tireDiscImg" src="disc.png" alt="">
+					<div class="dimension old-diameter">
+						<div>100</div>
+					</div>
+					<div class="dimension old-side-height">
+						<div>100</div>
+					</div>
+				</div>
+				<div class="img-old-front">
+					<img id="tireFrontImg" src="frontTire.png" alt="">
+					<div class="dimension old-width">
+						<div>100</div>
+					</div>
+				</div>
+			</div>
+			<div class="img-new">
+				<div class="img-new-side">
+					<img id="tireSideImgNew" src="sideTire.png" alt="">
+					<img id="tireDiscImgNew" src="disc.png" alt="">
+					<div class="dimension new-diameter">
+						<div>100</div>
+					</div>
+					<div class="dimension new-side-height">
+						<div>100</div>
+					</div>
+				</div>
+				<div class="img-new-front">
+					<img id="tireFrontImgNew" src="frontTire.png" alt="">
+					<div class="dimension new-width">
+						<div>100</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+	</div>
+	<!--<img id="tireSideImg" src="tire_side.png" alt="">
+	<img id="tireFrontImg" src="tire_front.jpeg" alt="">
+
+	<img id="tireSideImgNew" src="tire_side.png" alt="">
+	<img id="tireFrontImgNew" src="tire_front.jpeg" alt="">-->
+	
+	<script>
+	(function() {
+
+
+		function qs(el) {
+			return document.querySelector(el);
+		}
+
+		
+
+		//let imgOldDiameter = qs('.img-old-side');
+		//let imgNewDiameter = qs('.img-new-side');
+
+	
+
+
+		let table = qs('#results'),
+
+			//main selectors
+			diameter = qs('#diameter'),
+			width = qs('#width'),
+			circumference = qs('#circumference'),
+			sidewallHeight = qs('#sidewall_height'),
+			rev = qs('#rev'),
+			clearence = qs('#clearence'),
+
+			//classes for insertions
+			oldClass = '.old',
+			newClass = '.new',
+			diffClass = '.diff',
+
+			//store all td's that need measurement
+			measure = document.querySelectorAll('.measure'),
+
+			//selects
+			tireDiameterOld = qs('#tire_diameter_old'),
+			tireDiameterNew = qs('#tire_diameter_new'),
+
+			tireHeightOld = qs('#tire_height_old'),
+			tireHeightNew = qs('#tire_height_new'),
+
+			tireWidthOld = qs('#tire_width_old'),
+			tireWidthNew = qs('#tire_width_new'),
+
+
+			//tire images
+			oldImageFront = qs('#tireFrontImg'),
+			oldImageSide = qs('#tireSideImg'),
+			oldImageDisc = qs('#tireDiscImg'),
+
+			newImageFront = qs('#tireFrontImgNew'),
+			newImageSide = qs('#tireSideImgNew'),
+			newImageDisc = qs('#tireDiscImgNew'),
+
+			//image descriptions
+			oldDiameterDescr = qs('.old-diameter'),
+			newDiameterDescr = qs('.new-diameter'),
+
+			oldSideHeightDescr = qs('.old-side-height'),
+			newSideHeightDescr = qs('.new-side-height'),
+
+			oldWidthDescr = qs('.old-width'),
+			newWidthDescr = qs('.new-width'),
+
+			dms = document.querySelectorAll('.dimension'),
+
+			//speed
+			diamRate,
+			deviceSpeedArrow = qs('#device-speed'),
+			realSpeedArrow = qs('#real-speed'),
+			deviceSpeedTxt = qs('#device-text'),
+			realSpeedTxt = qs('#real-text'),
+			deviceSpeedVal = qs('#device-value'),
+			realSpeedVal = qs('#real-value'),
+			up = qs('#up'),
+			down = qs('#down'),
+			
+
+			//buttons
+			mmBtn = qs('#mm'),
+			inchBtn = qs('#inches'),
+			calcBtn = qs('#calc_button'),
+		
+			mm = ' мм',
+			inchQuot = '"',
+			measurement = mm,
+			inch = 2.54,
+			imgWidth = 200,
+
+			//arrays to store all values with measurement
+			mmProps = [],
+			inchProps = [],
+
+			tableMethods = {
+				
+				fillTable: function(selector, oldValue, newValue) {
+					selector.querySelector(oldClass).innerText = Math.round(oldValue);
+					selector.querySelector(newClass).innerText = Math.round(newValue);
+					selector.querySelector(diffClass).innerText = Math.round(newValue - oldValue);
+				},
+
+				getDiameter: function(oldWidth, newWidth, oldProfileHeight,
+					newProfileHeight, oldDiscDiam, newDiscDiam) {
+
+					let oldHeight = oldWidth * oldProfileHeight / 100;
+					let newHeight = newWidth * newProfileHeight / 100;
+
+					let oldDiscDiamMM = oldDiscDiam * inch * 10;
+					let newDiscDiamMM = newDiscDiam * inch * 10
+
+					let oldDiam = oldHeight * 2 + oldDiscDiamMM;
+					let newDiam = newHeight * 2 + newDiscDiamMM;
+
+
+					let diffDiam = newDiam - oldDiam;
+
+					diamRate = newDiam/oldDiam;
+
+					tableMethods.fillTable(diameter, oldDiam, newDiam);
+
+					tableMethods.getCircumference(oldDiam, newDiam);
+					tableMethods.getSideWallHeight(oldHeight, newHeight);
+					tableMethods.getClearenceDiff(diffDiam);
+					tableMethods.getSpeedDiff();
+
+					imgMethods.setImageDimension(oldDiam, newDiam, oldWidth, newWidth, oldDiscDiamMM, newDiscDiamMM);
+					
+					
+				},
+
+				getWidth: function(oldWidth, newWidth) {
+					tableMethods.fillTable(width, oldWidth, newWidth);
+				},
+
+				getCircumference: function(oldDiscDiam, newDiscDiam) {
+
+					let oldCirc = Math.PI * oldDiscDiam;
+					let newCirc = Math.PI * newDiscDiam;
+					console.log(oldCirc);
+					console.log(newCirc);
+					tableMethods.fillTable(circumference, oldCirc, newCirc);
+
+					tableMethods.getRevs(oldCirc, newCirc);
+				},
+
+				getSideWallHeight: function(oldProfileHeight, newProfileHeight) {
+					tableMethods.fillTable(sidewallHeight, oldProfileHeight, newProfileHeight);
+				},
+
+				getRevs: function(oldCirc, newCirc) {
+
+					let oldRevs = Math.round(1000000 / oldCirc);
+					let newRevs = Math.round(1000000 / newCirc);
+
+					tableMethods.fillTable(rev, oldRevs, newRevs);
+
+				},
+
+				getClearenceDiff: function(diffDiam) {
+					clearence.querySelector(diffClass).innerText = 
+						Math.round(diffDiam / 2);
+				},
+
+				getSpeedDiff: function() {
+					let initialSpeed = deviceSpeedVal.value;
+					let rate = 100*(1-diamRate)*initialSpeed/100;
+					let realSpeed = (initialSpeed - rate).toFixed(1);
+
+					let initialDeg = (initialSpeed - 100) * 2; 
+					// 60km/h = -80deg; 1 km/h = 2deg
+					let scaledRate = 2 * rate;
+					
+					deviceSpeedArrow.style.transform = 'rotateZ(' + initialDeg + 'deg)';
+					realSpeedArrow.style.transform = 'rotateZ(' + (initialDeg - scaledRate) + 'deg)';
+					
+					deviceSpeedTxt.innerText = 'Скорость на спидометре';
+					realSpeedTxt.innerText = 'Реальная скорость';
+
+					deviceSpeedVal.value = initialSpeed;
+					realSpeedVal.innerText = realSpeed + ' км/ч';
+
+				},
+
+				storeData: function() {
+
+					[].forEach.call(measure, function(el, i) {
+						mmProps.push(el.innerText);
+						inchProps.push((el.innerText / (
+							inch * 10)).toFixed(1));
+					});
+				},
+
+				setMeasure: function(prop) {
+					
+					[].forEach.call(measure, function(el, i) {
+						el.innerText = prop[i] + measurement;
+					});
+				},
+
+				calc: function() {
+
+					let getDiameterOld = tireDiameterOld.value;
+					let getDiameterNew = tireDiameterNew.value;
+
+					let getHeightOld = tireHeightOld.value;
+					let getHeightNew = tireHeightNew.value;
+
+					let getWidthOld = tireWidthOld.value;
+					let getWidthNew = tireWidthNew.value;
+
+					tableMethods.getDiameter(getWidthOld, getWidthNew,
+						getHeightOld, getHeightNew, 
+						getDiameterOld, getDiameterNew);
+
+					tableMethods.getWidth(getWidthOld, getWidthNew);
+
+					//reset arrays to store new data
+					mmProps = [];
+					inchProps = [];
+
+					tableMethods.storeData();
+
+					if (!measurement || measurement === mm) {
+						tableMethods.setMeasure(mmProps);
+						imgMethods.setTitles(mmProps);
+					} else {
+						tableMethods.setMeasure(inchProps);
+						imgMethods.setTitles(inchProps);
+					}
+					
+				}
+			}
+
+		imgMethods = {
+			
+			setImageDimension: function(oldDiam, newDiam, oldWidth, newWidth, oldDiscDiam, newDiscDiam) {
+
+				let scaledOldDiam = (oldDiam > newDiam) ? imgWidth : imgWidth / (newDiam / oldDiam);
+				let scaledNewDiam = (oldDiam > newDiam) ? imgWidth / (oldDiam / newDiam) : imgWidth;
+
+				let scaledOldWidth = oldWidth * scaledOldDiam / oldDiam;
+				let scaledNewWidth = newWidth * scaledNewDiam / newDiam;
+
+				let scaledOldDiscDiam = oldDiscDiam * scaledOldDiam / oldDiam;
+				let scaledNewDiscDiam = newDiscDiam * scaledNewDiam / newDiam;
+
+				//set dimensions of the old image
+
+				oldImageFront.height = oldImageSide.width = oldImageSide.height = scaledOldDiam;
+				oldImageFront.width = scaledOldWidth;
+				oldImageDisc.width = scaledOldDiscDiam;
+
+				//set dimensions of the new image
+
+				newImageFront.height = newImageSide.width = newImageSide.height = scaledNewDiam;
+				newImageFront.width = scaledNewWidth;
+				newImageDisc.width = scaledNewDiscDiam;
+
+				//set width of dimension's line of profile height
+				oldSideHeightDescr.style.width = (scaledOldDiam - scaledOldDiscDiam) / 2 + 'px';
+				newSideHeightDescr.style.width = (scaledNewDiam - scaledNewDiscDiam) / 2 + 'px';
+				
+			},
+
+			setTitles: function(prop) {
+
+				oldDiameterDescr.querySelector('div').innerText = prop[0] + measurement;
+				newDiameterDescr.querySelector('div').innerText = prop[1] + measurement;
+
+				oldWidthDescr.querySelector('div').innerText = prop[3] + measurement;
+				newWidthDescr.querySelector('div').innerText = prop[4] + measurement;
+
+				oldSideHeightDescr.querySelector('div').innerText = prop[9] + measurement;
+				newSideHeightDescr.querySelector('div').innerText = prop[10] + measurement;
+			
+			}
+				
+		};
+
+		mmBtn.addEventListener('click', function() {
+			measurement = mm;
+			tableMethods.setMeasure(mmProps);
+			imgMethods.setTitles(mmProps);
+		});
+
+		inchBtn.addEventListener('click', function() {
+			measurement = inchQuot;
+			tableMethods.setMeasure(inchProps);
+			imgMethods.setTitles(inchProps);
+		});
+
+		/*let select = document.querySelectorAll('select');
+		[].forEach.call(select, function(sel) {
+			sel.addEventListener('change', tableMethods.calc)
+		});*/
+		calcBtn.addEventListener('click', 
+			tableMethods.calc);
+
+		deviceSpeedVal.addEventListener('change', tableMethods.getSpeedDiff);
+
+		up.addEventListener('click', function() {
+			deviceSpeedVal.value++;
+			tableMethods.getSpeedDiff();
+		});
+
+		down.addEventListener('click', function() {
+			deviceSpeedVal.value--;
+			tableMethods.getSpeedDiff();
+		});
+		
+		window.addEventListener('load', tableMethods.calc);
+	})();
+	/*TASKS
+	* 1) reduce amount of global vars
+	* 2) rename some vars
+	* 3) to group event listeners
+	* 4) make style
+	*/
+	</script>
+			
+</body>
+</html>
