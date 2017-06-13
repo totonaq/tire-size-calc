@@ -5,14 +5,6 @@
 		return document.querySelector(el);
 	}
 
-	
-
-	//let imgOldDiameter = qs('.img-old-side');
-	//let imgNewDiameter = qs('.img-new-side');
-
-
-
-
 	let table = qs('#results'),
 
 		//main selectors
@@ -41,9 +33,15 @@
 		tireWidthOld = qs('#tire_width_old'),
 		tireWidthNew = qs('#tire_width_new'),
 
+		///
+		oldSide = qs('.img-old-side'),
+		oldFront = qs('.img-old-front'),
+		newSide = qs('.img-new-side'),
+		newFront = qs('.img-new-front'),
+
 
 		//tire images
-		oldImageFront = qs('#tireFrontImg'),
+		/*oldImageFront = qs('#tireFrontImg'),
 		oldImageSide = qs('#tireSideImg'),
 		oldImageDisc = qs('#tireDiscImg'),
 
@@ -59,18 +57,21 @@
 		newSideHeightDescr = qs('.new-side-height'),
 
 		oldWidthDescr = qs('.old-width'),
-		newWidthDescr = qs('.new-width'),
+		newWidthDescr = qs('.new-width'),*/
 
 		dms = document.querySelectorAll('.dimension'),
 
 		//speed
+		speedometer = qs('.speed-wrap'),
+
 		diamRate,
-		deviceSpeedArrow = qs('#device-speed'),
-		realSpeedArrow = qs('#real-speed'),
-		deviceSpeedTxt = qs('#device-text'),
-		realSpeedTxt = qs('#real-text'),
 		deviceSpeedVal = qs('#device-value'),
-		realSpeedVal = qs('#real-value'),
+		/*deviceSpeedArrow = qs('#device-speed'), //speedometer.childNodes[5].childNodes[3]
+		realSpeedArrow = qs('#real-speed'), //speedometer.childNodes[7].childNodes[3]
+		deviceSpeedTxt = qs('#device-text'), //speedometer.childNodes[1]
+		realSpeedTxt = qs('#real-text'), //speedometer.childNodes[3]
+		deviceSpeedVal = qs('#device-value'), //speedometer.childNodes[9].childNodes[3]
+		realSpeedVal = qs('#real-value'), //speedometer.childNodes[11]*/
 		up = qs('#up'),
 		down = qs('#down'),
 		
@@ -78,7 +79,7 @@
 		//buttons
 		mmBtn = qs('#mm'),
 		inchBtn = qs('#inches'),
-		calcBtn = qs('#calc_button'),
+		//calcBtn = qs('#calc_button'),
 	
 		mm = ' мм',
 		inchQuot = '"',
@@ -135,8 +136,7 @@
 
 				let oldCirc = Math.PI * oldDiscDiam;
 				let newCirc = Math.PI * newDiscDiam;
-				console.log(oldCirc);
-				console.log(newCirc);
+				
 				tableMethods.fillTable(circumference, oldCirc, newCirc);
 
 				tableMethods.getRevs(oldCirc, newCirc);
@@ -169,14 +169,14 @@
 				// 60km/h = -80deg; 1 km/h = 2deg
 				let scaledRate = 2 * rate;
 				
-				deviceSpeedArrow.style.transform = 'rotateZ(' + initialDeg + 'deg)';
-				realSpeedArrow.style.transform = 'rotateZ(' + (initialDeg - scaledRate) + 'deg)';
+				speedometer.childNodes[5].childNodes[3].style.transform = 'rotateZ(' + initialDeg + 'deg)';
+				speedometer.childNodes[7].childNodes[3].style.transform = 'rotateZ(' + (initialDeg - scaledRate) + 'deg)';
 				
-				deviceSpeedTxt.innerText = 'Скорость на спидометре, км/ч';
-				realSpeedTxt.innerText = 'Реальная скорость, км/ч';
+				speedometer.childNodes[1].innerText = 'Скорость на спидометре, км/ч';
+				speedometer.childNodes[3].innerText = 'Реальная скорость, км/ч';
 
-				deviceSpeedVal.value = initialSpeed;
-				realSpeedVal.innerText = realSpeed;
+				speedometer.childNodes[9].childNodes[3].value = initialSpeed;
+				speedometer.childNodes[11].innerText = realSpeed;
 
 			},
 
@@ -243,35 +243,38 @@
 			let scaledOldDiscDiam = oldDiscDiam * scaledOldDiam / oldDiam;
 			let scaledNewDiscDiam = newDiscDiam * scaledNewDiam / newDiam;
 
-			//set dimensions of the old image
+			//set dimensions of the old images
+			oldFront.childNodes[1].height = oldSide.childNodes[1].width = 
+				oldSide.childNodes[1].height = scaledOldDiam;
+			oldFront.childNodes[1].width = scaledOldWidth;
+			oldSide.childNodes[3].width = scaledOldDiscDiam;
 
-			oldImageFront.height = oldImageSide.width = oldImageSide.height = scaledOldDiam;
-			oldImageFront.width = scaledOldWidth;
-			oldImageDisc.width = scaledOldDiscDiam;
+			//set dimensions of the new images
+			newFront.childNodes[1].height = newSide.childNodes[1].width = 
+				newSide.childNodes[1].height = scaledNewDiam;
+			newFront.childNodes[1].width = scaledNewWidth;
+			newSide.childNodes[3].width = scaledNewDiscDiam;
 
-			//set dimensions of the new image
-
-			newImageFront.height = newImageSide.width = newImageSide.height = scaledNewDiam;
-			newImageFront.width = scaledNewWidth;
-			newImageDisc.width = scaledNewDiscDiam;
-
-			//set width of dimension's line of profile height
-			oldSideHeightDescr.style.width = (scaledOldDiam - scaledOldDiscDiam) / 2 + 'px';
-			newSideHeightDescr.style.width = (scaledNewDiam - scaledNewDiscDiam) / 2 + 'px';
+			//set width of dimension's line of profile height (.*-side-height)
+			oldSide.childNodes[7].childNodes[1].style.width = (scaledOldDiam - scaledOldDiscDiam) / 2 + 'px';
+			newSide.childNodes[7].childNodes[1].style.width = (scaledNewDiam - scaledNewDiscDiam) / 2 + 'px';
 			
 		},
 
 		setTitles: function(prop) {
 
-			oldDiameterDescr.querySelector('div').innerText = prop[0] + measurement;
-			newDiameterDescr.querySelector('div').innerText = prop[1] + measurement;
+			//set values to .descr-v ( < .*-diameter)
+			oldSide.childNodes[5].childNodes[1].innerText = prop[0] + measurement;
+			newSide.childNodes[5].childNodes[1].innerText = prop[1] + measurement;
 
-			oldWidthDescr.querySelector('div').innerText = prop[3] + measurement;
-			newWidthDescr.querySelector('div').innerText = prop[4] + measurement;
+			//set values to .descr-h ( < .*-side-height)
+			oldSide.childNodes[7].childNodes[1].innerText = prop[9] + measurement;
+			newSide.childNodes[7].childNodes[1].innerText = prop[10] + measurement;
 
-			oldSideHeightDescr.querySelector('div').innerText = prop[9] + measurement;
-			newSideHeightDescr.querySelector('div').innerText = prop[10] + measurement;
-		
+			//set values to .descr-h ( < .*-width)
+			oldFront.childNodes[3].childNodes[1].innerText = prop[3] + measurement;
+			newFront.childNodes[3].childNodes[1].innerText = prop[4] + measurement;
+
 		}
 			
 	};
@@ -292,12 +295,13 @@
 		imgMethods.setTitles(inchProps);
 	});
 
-	/*let select = document.querySelectorAll('select');
+	let select = document.querySelectorAll('select');
 	[].forEach.call(select, function(sel) {
 		sel.addEventListener('change', tableMethods.calc)
-	});*/
-	calcBtn.addEventListener('click', 
-		tableMethods.calc);
+	});
+
+	//calcBtn.addEventListener('click', 
+		//tableMethods.calc);
 
 	deviceSpeedVal.addEventListener('change', tableMethods.getSpeedDiff);
 
@@ -317,5 +321,6 @@
 * 1) reduce amount of global vars
 * 2) rename some vars
 * 3) to group event listeners
-* 4) make style
+* 4) complete interface style
+* 5) change speedometer
 */

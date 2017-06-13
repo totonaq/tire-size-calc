@@ -6,14 +6,14 @@ p {
 	padding: 0 0 15px 0;
 }
 select {
-	border: 2px solid #00a8a8;
-	border-radius: 10px;
-	font-size: 1.5rem;
+	/*border: 2px solid #00a8a8;
+	border-radius: 10px;*/
+	font-size: 1rem;
 }
-table {
-	font-size: 1.2rem;
-	width: 100%;
+select:focus {
+	outline: none;
 }
+
 button {
 	background-color: #00a8a8;
 	border: none;
@@ -48,27 +48,48 @@ button#up, button#down {
 	background-color: #888;
 	width: 60%;
 }
-
-#selections td {
+table {
+	border-collapse: collapse;
+	font-size: 1rem;
+	width: 100%;
+}
+#selections tr:first-child {
+	background-color: #00a8a8;
+}
+#selections tr:first-child th {
+	color: #fff;
+}
+td, th {
+	border: 1px solid #BEBEBE;
 	
-	width: 50%;
+	padding: 5px 10px;
+	text-align: left;
+	width: 25%;
 }
-#selections tr td:first-child {
-	font-size: 1.5rem;
+th {
+	color: #343434;
 }
-#selections tr td:last-child {
-	text-align: right;	
-}
-#selections tr:last-child td{
+/*#selections tr:last-child td{
 	height: 80px;
 	text-align: center;
+}*/
+#results {
+	margin-top: 50px;
 }
-#results td {
-	padding: 5px;
+#results th {
+	background-color: #F1F1F1;
 	width: 20%;
 }
-#results tr:nth-child(odd) {
+#results td {
+	padding: 10px;
+	text-align: center;
+	width: 20%;
+}
+/*#results tr:nth-child(odd) {
 	background-color: #eee;
+}*/
+#results tr th:first-child {
+	width: 40%;
 }
 #results tr:first-child th {
 	background-color: #00a8a8;
@@ -82,18 +103,29 @@ button#up, button#down {
 	text-align: left;
 }*/
 .calc-wrap {
+	/*display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	flex-flow: row wrap;*/
+	max-width: 1000px;
+	margin-top: 10px;
+}
+.table-wrap,
+.img-wrap {
+	width: 100%;
+}
+.img-speed-wrap {
+	background-color: #f1f1f1;
+	border: 1px solid #bebebe;
+	border-top-color: transparent;
 	display: -webkit-flex;
 	display: -moz-flex;
 	display: -ms-flex;
 	display: -o-flex;
 	display: flex;
 	flex-flow: row wrap;
-	max-width: 1000px;
-	margin-top: 10px;
-}
-.table-wrap,
-.img-wrap {
-	width: 50%;
 }
 .img-wrap {
 	margin-top: 50px;
@@ -127,8 +159,7 @@ button#up, button#down {
 }
 
 
-#tireDiscImg,
-#tireDiscImgNew {
+.disc {
 	position: absolute;
 }
 .dimension {
@@ -154,25 +185,22 @@ button#up, button#down {
 	border-top: 1px dashed #000;
 	left: 0;
 }
-.dimension > div {
+.dimension .descr-h,
+.dimension .descr-v {
 	position: absolute;
 	white-space: nowrap;
 }
-
-.dimension.old-side-height > div,
-.dimension.new-side-height > div,
-.dimension.old-width > div,
-.dimension.new-width > div {
+.dimension .descr-h {
 	top: -20px;
 }
-.dimension.old-diameter > div,
-.dimension.new-diameter > div {
+.dimension .descr-v {
 	left: -36px;
 	top: 50%;
 	transform: rotateZ(-90deg);
 	width: 22%;
 }
 .speed-wrap {
+
 	display: -webkit-flex;
 	display: -moz-flex;
 	display: -ms-flex;
@@ -180,10 +208,10 @@ button#up, button#down {
 	display: flex;
 	flex-flow: row wrap;
 	/*padding: 0 15%;*/
-	width: 45%;
+	width: 50%;
 }
 .speed-wrap .speed-text {
-	font-size: 1.5rem;
+	font-size: 1.2rem;
 	text-align: center;
 	width: 50%;
 }
@@ -202,7 +230,8 @@ button#up, button#down {
 #device-value {
 	background-color: #ddd;
 	font-size: 2.5rem;
-	width: 45px;
+	text-align: center;
+	width: 70px;
 }
 #real-value {
 	font-size: 2.5rem;
