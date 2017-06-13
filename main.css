@@ -1,0 +1,243 @@
+body {
+	font: 16px 'Roboto', sans-serif;
+}
+p {
+	margin: 0;
+	padding: 0 0 15px 0;
+}
+select {
+	border: 2px solid #00a8a8;
+	border-radius: 10px;
+	font-size: 1.5rem;
+}
+table {
+	font-size: 1.2rem;
+	width: 100%;
+}
+button {
+	background-color: #00a8a8;
+	border: none;
+	border-radius: 10px;
+	color: #fff;
+	font-size: 1.5rem;
+	outline: none;
+	padding: 5px 10px;
+}
+button#up, button#down {
+	background-color: transparent;
+	color: #000;
+}
+.switcher {
+	background-color: #00a8a8;
+	border-radius: 10px;
+	display: flex;
+	justify-content: space-around;
+	margin: 15px 0 0 auto;
+	overflow: hidden;
+	width: 35%;
+}
+.switcher button {
+	border-radius: 0;
+	font-size: 1.2rem;
+	padding: 5px;
+}
+.switcher button#mm {
+	width: 40%;
+}
+.switcher button#inches {
+	background-color: #888;
+	width: 60%;
+}
+
+#selections td {
+	
+	width: 50%;
+}
+#selections tr td:first-child {
+	font-size: 1.5rem;
+}
+#selections tr td:last-child {
+	text-align: right;	
+}
+#selections tr:last-child td{
+	height: 80px;
+	text-align: center;
+}
+#results td {
+	padding: 5px;
+	width: 20%;
+}
+#results tr:nth-child(odd) {
+	background-color: #eee;
+}
+#results tr:first-child th {
+	background-color: #00a8a8;
+	color: #fff;
+}
+#clearence td {
+	text-align: center;
+}
+/*#results tr:last-child td {
+	height: 50px;
+	text-align: left;
+}*/
+.calc-wrap {
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	flex-flow: row wrap;
+	max-width: 1000px;
+	margin-top: 10px;
+}
+.table-wrap,
+.img-wrap {
+	width: 50%;
+}
+.img-wrap {
+	margin-top: 50px;
+	width: 46%;
+}
+.table-wrap {
+	margin-right: 4%;
+}
+.img-old {
+	margin-bottom: 50px;
+}
+.img-old,
+.img-new {
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	justify-content: space-around;
+}
+.img-old > div,
+.img-new > div {
+	position: relative;
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+
+#tireDiscImg,
+#tireDiscImgNew {
+	position: absolute;
+}
+.dimension {
+	border: 1px solid #000;
+	border-color: transparent #000 transparent #000;
+	bottom: 0;
+	height: 110%;
+	position: absolute;
+	width: 100%;
+}
+.dimension.old-diameter,
+.dimension.new-diameter {
+	border-color: #000 transparent #000 transparent;
+	border-left: 1px dashed #000;
+	height: 100%;
+	right: 0;
+	width: 110%;
+}
+.dimension.old-side-height,
+.dimension.new-side-height,
+.dimension.old-width,
+.dimension.new-width {
+	border-top: 1px dashed #000;
+	left: 0;
+}
+.dimension > div {
+	position: absolute;
+	white-space: nowrap;
+}
+
+.dimension.old-side-height > div,
+.dimension.new-side-height > div,
+.dimension.old-width > div,
+.dimension.new-width > div {
+	top: -20px;
+}
+.dimension.old-diameter > div,
+.dimension.new-diameter > div {
+	left: -36px;
+	top: 50%;
+	transform: rotateZ(-90deg);
+	width: 22%;
+}
+.speed-wrap {
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	flex-flow: row wrap;
+	/*padding: 0 15%;*/
+	width: 45%;
+}
+.speed-wrap .speed-text {
+	font-size: 1.5rem;
+	text-align: center;
+	width: 50%;
+}
+/*.speed-wrap .speed-text.up {
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+}*/
+.speedometer {
+	position: relative;
+	width: 50%;
+}
+
+#device-value {
+	background-color: #ddd;
+	font-size: 2.5rem;
+	width: 45px;
+}
+#real-value {
+	font-size: 2.5rem;
+}
+.speedometer img:first-child {
+	width: 100%;
+}
+.speedometer img:last-of-type {
+	left: 44%;
+	position: absolute;
+	/*transform: rotateZ(-80deg);*/
+	transform-origin: 50% 85.5%;
+	transition: all .5s ease-in-out;
+	top: 9%;
+	width: 14%;
+}
+/*.img-old-side,
+.img-new-side {
+	margin-right: 150px;
+	
+}*/
+
+/*.img-old-side,
+.img-new-side {
+	position: relative;
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	max-width: 200px;
+}
+#tireDiscImg,
+#tireDiscImgNew {
+	position: absolute;	
+}*/
