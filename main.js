@@ -1,9 +1,13 @@
 (function() {
 
-
 	function qs(el) {
 		return document.querySelector(el);
 	}
+	const inch = 2.54,
+		mm = ' мм',
+		inchQuote = '"';
+
+	let measurement = mm;
 
 	let table = qs('#results'),
 
@@ -64,7 +68,7 @@
 		//speed
 		speedometer = qs('.speed-wrap'),
 
-		diamRate,
+		
 		deviceSpeedVal = qs('#device-value'),
 		/*deviceSpeedArrow = qs('#device-speed'), //speedometer.childNodes[5].childNodes[3]
 		realSpeedArrow = qs('#real-speed'), //speedometer.childNodes[7].childNodes[3]
@@ -79,19 +83,28 @@
 		//buttons
 		mmBtn = qs('#mm'),
 		inchBtn = qs('#inches'),
-		//calcBtn = qs('#calc_button'),
+		calcBtn = qs('#calc_button'),
+		switcher = qs('#switch-bg'),
 	
-		mm = ' мм',
-		inchQuot = '"',
-		measurement = mm,
-		inch = 2.54,
-		imgWidth = 200,
+		/*mm = ' мм',
+		inchQuote = '"',
+		measurement = mm,*/
 
 		//arrays to store all values with measurement
-		mmProps = [],
-		inchProps = [],
+		//mmProps = [],
+		//inchProps = [],
+
+
 
 		tableMethods = {
+
+			imgWidth: 200,
+			maxSpeed: 140,
+			minSpeed: 0,
+			defaultSpeed: 60,
+			initSpeedTxt: 'Скорость на спидометре, км/ч',
+			realSpeedTxt: 'Реальная скорость, км/ч',
+
 			
 			fillTable: function(selector, oldValue, newValue) {
 				selector.querySelector(oldClass).innerText = Math.round(oldValue);
@@ -99,92 +112,79 @@
 				selector.querySelector(diffClass).innerText = Math.round(newValue - oldValue);
 			},
 
-			getDiameter: function(oldWidth, newWidth, oldProfileHeight,
-				newProfileHeight, oldDiscDiam, newDiscDiam) {
+			getTableParams: function() {
 
-				let oldHeight = oldWidth * oldProfileHeight / 100;
-				let newHeight = newWidth * newProfileHeight / 100;
+				//VALUE FROM SELECT
+				this.oldDiscDiam = tireDiameterOld.value;
+				this.newDiscDiam = tireDiameterNew.value;
 
-				let oldDiscDiamMM = oldDiscDiam * inch * 10;
-				let newDiscDiamMM = newDiscDiam * inch * 10
+				this.oldProfileHeight = tireHeightOld.value;
+				this.newProfileHeight = tireHeightNew.value;
 
-				let oldDiam = oldHeight * 2 + oldDiscDiamMM;
-				let newDiam = newHeight * 2 + newDiscDiamMM;
+				this.oldWidth = tireWidthOld.value;
+				this.newWidth = tireWidthNew.value;
 
+				//CALCULATED VALUES
+				this.oldHeight = this.oldWidth * this.oldProfileHeight / 100;
+				this.newHeight = this.newWidth * this.newProfileHeight / 100;
 
-				let diffDiam = newDiam - oldDiam;
+				this.oldDiscDiamMM = this.oldDiscDiam * inch * 10;
+				this.newDiscDiamMM = this.newDiscDiam * inch * 10;
 
-				diamRate = newDiam/oldDiam;
+				this.oldDiam = this.oldHeight * 2 + this.oldDiscDiamMM;
+				this.newDiam = this.newHeight * 2 + this.newDiscDiamMM;
 
-				tableMethods.fillTable(diameter, oldDiam, newDiam);
+				this.oldCirc = Math.PI * this.oldDiam;
+				this.newCirc = Math.PI * this.newDiam;
 
-				tableMethods.getCircumference(oldDiam, newDiam);
-				tableMethods.getSideWallHeight(oldHeight, newHeight);
-				tableMethods.getClearenceDiff(diffDiam);
-				tableMethods.getSpeedDiff();
+				this.oldRevs = Math.round(1000000 / this.oldCirc);
+				this.newRevs = Math.round(1000000 / this.newCirc);
 
-				imgMethods.setImageDimension(oldDiam, newDiam, oldWidth, newWidth, oldDiscDiamMM, newDiscDiamMM);
-				
-				
-			},
+				this.diffDiam = this.newDiam - this.oldDiam;
 
-			getWidth: function(oldWidth, newWidth) {
-				tableMethods.fillTable(width, oldWidth, newWidth);
-			},
-
-			getCircumference: function(oldDiscDiam, newDiscDiam) {
-
-				let oldCirc = Math.PI * oldDiscDiam;
-				let newCirc = Math.PI * newDiscDiam;
-				
-				tableMethods.fillTable(circumference, oldCirc, newCirc);
-
-				tableMethods.getRevs(oldCirc, newCirc);
-			},
-
-			getSideWallHeight: function(oldProfileHeight, newProfileHeight) {
-				tableMethods.fillTable(sidewallHeight, oldProfileHeight, newProfileHeight);
-			},
-
-			getRevs: function(oldCirc, newCirc) {
-
-				let oldRevs = Math.round(1000000 / oldCirc);
-				let newRevs = Math.round(1000000 / newCirc);
-
-				tableMethods.fillTable(rev, oldRevs, newRevs);
+				this.diamRate = this.newDiam/this.oldDiam;
 
 			},
 
-			getClearenceDiff: function(diffDiam) {
+			setTableParams: function() {
+				this.setDiameter(this.oldDiam, this.newDiam);
+				this.setWidth(this.oldWidth, this.newWidth);
+				this.setCircumference(this.oldCirc, this.newCirc);
+				this.setSideWallHeight(this.oldHeight, this.newHeight);
+				this.setRevs(this.oldRevs, this.newRevs);
+				this.setClearenceDiff(this.diffDiam);
+			},
+
+			setDiameter: function(o, n) {
+				this.fillTable(diameter, o, n);
+			},
+
+			setWidth: function(o, n) {
+				this.fillTable(width, o, n);
+			},
+
+			setCircumference: function(o, n) {
+				this.fillTable(circumference, o, n);
+			},
+
+			setSideWallHeight: function(o, n) {
+				this.fillTable(sidewallHeight, o, n);
+			},
+
+			setRevs: function(o, n) {
+				this.fillTable(rev, o, n);
+			},
+
+			setClearenceDiff: function(diff) {
 				clearence.querySelector(diffClass).innerText = 
-					Math.round(diffDiam / 2);
-			},
-
-			getSpeedDiff: function() {
-				let initialSpeed = deviceSpeedVal.value;
-				let rate = 100*(1-diamRate)*initialSpeed/100;
-				let realSpeed = (initialSpeed - rate).toFixed(1);
-
-				let initialDeg = (initialSpeed - 100) * 2; 
-				// 60km/h = -80deg; 1 km/h = 2deg
-				let scaledRate = 2 * rate;
-				
-				speedometer.childNodes[5].childNodes[3].style.transform = 'rotateZ(' + initialDeg + 'deg)';
-				speedometer.childNodes[7].childNodes[3].style.transform = 'rotateZ(' + (initialDeg - scaledRate) + 'deg)';
-				
-				speedometer.childNodes[1].innerText = 'Скорость на спидометре, км/ч';
-				speedometer.childNodes[3].innerText = 'Реальная скорость, км/ч';
-
-				speedometer.childNodes[9].childNodes[3].value = initialSpeed;
-				speedometer.childNodes[11].innerText = realSpeed;
-
+					Math.round(diff / 2);
 			},
 
 			storeData: function() {
 
 				[].forEach.call(measure, function(el, i) {
-					mmProps.push(el.innerText);
-					inchProps.push((el.innerText / (
+					tableMethods.mmProps.push(el.innerText);
+					tableMethods.inchProps.push((el.innerText / (
 						inch * 10)).toFixed(1));
 				});
 			},
@@ -194,133 +194,222 @@
 				[].forEach.call(measure, function(el, i) {
 					el.innerText = prop[i] + measurement;
 				});
+
+			},
+
+			getImageParams: function() {
+
+				 this.scaledOldDiam = (this.oldDiam > this.newDiam) ? this.imgWidth : 
+				 	this.imgWidth / (this.newDiam / this.oldDiam);
+				 this.scaledNewDiam = (this.oldDiam > this.newDiam) ? this.imgWidth / 
+				 	(this.oldDiam / this.newDiam) : this.imgWidth;
+
+				 this.scaledOldWidth = this.oldWidth * this.scaledOldDiam / this.oldDiam;
+				 this.scaledNewWidth = this.newWidth * this.scaledNewDiam / this.newDiam;
+
+				 this.scaledOldDiscDiam = this.oldDiscDiamMM * this.scaledOldDiam / this.oldDiam;
+				 this.scaledNewDiscDiam = this.newDiscDiamMM * this.scaledNewDiam / this.newDiam;
+			},
+
+			setImageParams: function() {
+
+				//set dimensions of the old images
+				oldFront.childNodes[1].height = oldSide.childNodes[1].width = 
+					oldSide.childNodes[1].height = this.scaledOldDiam;
+
+				oldFront.childNodes[1].width = this.scaledOldWidth;
+
+				oldSide.childNodes[3].width = this.scaledOldDiscDiam;
+
+				//set dimensions of the new images
+				newFront.childNodes[1].height = newSide.childNodes[1].width = 
+					newSide.childNodes[1].height = this.scaledNewDiam;
+
+				newFront.childNodes[1].width = this.scaledNewWidth;
+
+				newSide.childNodes[3].width = this.scaledNewDiscDiam;
+
+				
+			},
+
+			setImageTitles: function(prop) {
+
+				//set values to .descr-v ( < .*-diameter)
+				oldSide.childNodes[5].childNodes[1].innerText = 
+					prop[0] + measurement;
+				newSide.childNodes[5].childNodes[1].innerText =
+					prop[1] + measurement;
+
+				//set values to .descr-h ( < .*-side-height)
+				oldSide.childNodes[7].childNodes[1].innerText = 
+					prop[9] + measurement;
+				newSide.childNodes[7].childNodes[1].innerText = 
+					prop[10] + measurement;
+
+				//set values to .descr-h ( < .*-width)
+				oldFront.childNodes[3].childNodes[1].innerText = 
+					prop[3] + measurement;
+				newFront.childNodes[3].childNodes[1].innerText = 
+					prop[4] + measurement;
+
+			},
+
+			setImageTitlesWidth: function() {
+
+				oldSide.childNodes[7].childNodes[1].style.width = 
+					(this.scaledOldDiam - this.scaledOldDiscDiam) / 2 + 'px';
+
+				newSide.childNodes[7].childNodes[1].style.width = 
+					(this.scaledNewDiam - this.scaledNewDiscDiam) / 2 + 'px';
+			},
+
+			setSpeedParams: function() {
+				this.getSpeedDiff();
+				this.setSpeedDiff();
+				this.getArrowsDeg();
+				this.setArrowsDeg();
+			},
+
+			getSpeedDiff: function() {
+
+				this.initialSpeed = deviceSpeedVal.value;
+				
+				if (isNaN(this.initialSpeed)) this.initialSpeed = this.defaultSpeed;
+
+				if (this.initialSpeed < this.minSpeed) this.initialSpeed = this.minSpeed;
+				if (this.initialSpeed > this.maxSpeed) this.initialSpeed = this.maxSpeed;
+				
+				let speedRate = (1 - this.diamRate) * this.initialSpeed;
+				this.realSpeed = (this.initialSpeed - speedRate).toFixed(1);
+				
+			},
+
+			setSpeedDiff: function() {
+
+				speedometer.childNodes[1].innerText = this.initSpeedTxt;
+				speedometer.childNodes[3].innerText = this.realSpeedTxt;
+
+				speedometer.childNodes[9].childNodes[3].value = this.initialSpeed;
+				speedometer.childNodes[11].innerText = this.realSpeed;
+			},
+
+			getArrowsDeg: function() {
+
+				this.initialDeg = this.initialSpeed * 2 - 190;
+				this.realDeg = this.realSpeed * 2 - 190;
+
+				if (this.initialDeg < -90) {
+					this.initialDeg = -90;
+				} else if (this.initialDeg > 90) {
+					this.initialDeg = 90;
+				} 
+				if (this.realDeg < -90) {
+					this.realDeg = -90;
+				} else if (this.realDeg > 90) {
+					this.realDeg = 90;
+				}
+			},
+
+			setArrowsDeg: function() {
+
+				speedometer.childNodes[5].childNodes[3].style.transform = 
+					'rotateZ(' + this.initialDeg + 'deg)';
+				speedometer.childNodes[7].childNodes[3].style.transform = 
+					'rotateZ(' + this.realDeg + 'deg)';
 			},
 
 			calc: function() {
 
-				let getDiameterOld = tireDiameterOld.value;
-				let getDiameterNew = tireDiameterNew.value;
+				tableMethods.getTableParams();
+				tableMethods.setTableParams();
 
-				let getHeightOld = tireHeightOld.value;
-				let getHeightNew = tireHeightNew.value;
+				tableMethods.getImageParams();
+				tableMethods.setImageParams();
 
-				let getWidthOld = tireWidthOld.value;
-				let getWidthNew = tireWidthNew.value;
-
-				tableMethods.getDiameter(getWidthOld, getWidthNew,
-					getHeightOld, getHeightNew, 
-					getDiameterOld, getDiameterNew);
-
-				tableMethods.getWidth(getWidthOld, getWidthNew);
-
+				tableMethods.setImageTitlesWidth();
+			
 				//reset arrays to store new data
-				mmProps = [];
-				inchProps = [];
+				tableMethods.mmProps = [];
+				tableMethods.inchProps = [];
 
 				tableMethods.storeData();
 
-				if (!measurement || measurement === mm) {
-					tableMethods.setMeasure(mmProps);
-					imgMethods.setTitles(mmProps);
+				if (measurement === mm) {
+					tableMethods.setMeasure(tableMethods.mmProps);
+					tableMethods.setImageTitles(tableMethods.mmProps);
 				} else {
-					tableMethods.setMeasure(inchProps);
-					imgMethods.setTitles(inchProps);
+					tableMethods.setMeasure(tableMethods.inchProps);
+					tableMethods.setImageTitles(tableMethods.inchProps);
 				}
+
+				tableMethods.setSpeedParams();
 				
+			},
+
+			measureBtnClick: function(target, prop, translate, measure) {
+				target.addEventListener('click', function() {
+					measurement = measure;
+					inchBtn.className = mmBtn.className = "change-out",
+					this.className = "change-in";
+					switcher.style.transform = "translateX(" + translate + ")";
+					tableMethods.setMeasure(prop);
+					tableMethods.setImageTitles(prop);
+				})
+			},
+
+			speedBtnClick: function(target) {
+				target.addEventListener('click', function() {
+					target === up ? deviceSpeedVal.value++ : 
+						deviceSpeedVal.value--;
+					tableMethods.setSpeedParams();
+				})
+			},
+
+			speedValChange: function() {
+				deviceSpeedVal.addEventListener('change', function() {
+					tableMethods.setSpeedParams();
+				});
 			}
-		}
-
-	imgMethods = {
-		
-		setImageDimension: function(oldDiam, newDiam, oldWidth, newWidth, oldDiscDiam, newDiscDiam) {
-
-			let scaledOldDiam = (oldDiam > newDiam) ? imgWidth : imgWidth / (newDiam / oldDiam);
-			let scaledNewDiam = (oldDiam > newDiam) ? imgWidth / (oldDiam / newDiam) : imgWidth;
-
-			let scaledOldWidth = oldWidth * scaledOldDiam / oldDiam;
-			let scaledNewWidth = newWidth * scaledNewDiam / newDiam;
-
-			let scaledOldDiscDiam = oldDiscDiam * scaledOldDiam / oldDiam;
-			let scaledNewDiscDiam = newDiscDiam * scaledNewDiam / newDiam;
-
-			//set dimensions of the old images
-			oldFront.childNodes[1].height = oldSide.childNodes[1].width = 
-				oldSide.childNodes[1].height = scaledOldDiam;
-			oldFront.childNodes[1].width = scaledOldWidth;
-			oldSide.childNodes[3].width = scaledOldDiscDiam;
-
-			//set dimensions of the new images
-			newFront.childNodes[1].height = newSide.childNodes[1].width = 
-				newSide.childNodes[1].height = scaledNewDiam;
-			newFront.childNodes[1].width = scaledNewWidth;
-			newSide.childNodes[3].width = scaledNewDiscDiam;
-
-			//set width of dimension's line of profile height (.*-side-height)
-			oldSide.childNodes[7].childNodes[1].style.width = (scaledOldDiam - scaledOldDiscDiam) / 2 + 'px';
-			newSide.childNodes[7].childNodes[1].style.width = (scaledNewDiam - scaledNewDiscDiam) / 2 + 'px';
-			
-		},
-
-		setTitles: function(prop) {
-
-			//set values to .descr-v ( < .*-diameter)
-			oldSide.childNodes[5].childNodes[1].innerText = prop[0] + measurement;
-			newSide.childNodes[5].childNodes[1].innerText = prop[1] + measurement;
-
-			//set values to .descr-h ( < .*-side-height)
-			oldSide.childNodes[7].childNodes[1].innerText = prop[9] + measurement;
-			newSide.childNodes[7].childNodes[1].innerText = prop[10] + measurement;
-
-			//set values to .descr-h ( < .*-width)
-			oldFront.childNodes[3].childNodes[1].innerText = prop[3] + measurement;
-			newFront.childNodes[3].childNodes[1].innerText = prop[4] + measurement;
 
 		}
-			
-	};
 
-	mmBtn.addEventListener('click', function() {
-		measurement = mm;
-		inchBtn.style.backgroundColor = "#888";
-		this.style.backgroundColor = "#00a8a8";
-		tableMethods.setMeasure(mmProps);
-		imgMethods.setTitles(mmProps);
+
+	
+
+	/*deviceSpeedVal.addEventListener('change', function() {
+		tableMethods.setSpeedParams();
 	});
-
-	inchBtn.addEventListener('click', function() {
-		measurement = inchQuot;
-		this.style.backgroundColor = "#00a8a8";
-		mmBtn.style.backgroundColor = "#888";
-		tableMethods.setMeasure(inchProps);
-		imgMethods.setTitles(inchProps);
-	});
-
-	let select = document.querySelectorAll('select');
-	[].forEach.call(select, function(sel) {
-		sel.addEventListener('change', tableMethods.calc)
-	});
-
-	//calcBtn.addEventListener('click', 
-		//tableMethods.calc);
-
-	deviceSpeedVal.addEventListener('change', tableMethods.getSpeedDiff);
 
 	up.addEventListener('click', function() {
 		deviceSpeedVal.value++;
-		tableMethods.getSpeedDiff();
+		tableMethods.setSpeedParams();
 	});
 
 	down.addEventListener('click', function() {
 		deviceSpeedVal.value--;
-		tableMethods.getSpeedDiff();
-	});
+		tableMethods.setSpeedParams();
+	});*/
+
+	//tableMethods.upClick;
+	//tableMethods.upClick;
+	calcBtn.addEventListener('click', 
+		tableMethods.calc);
 	
-	window.addEventListener('load', tableMethods.calc);
+	window.addEventListener('load', function() {
+		tableMethods.calc();
+		tableMethods.measureBtnClick(mmBtn, 
+			tableMethods.mmProps, '0', mm);
+		tableMethods.measureBtnClick(inchBtn, 
+			tableMethods.inchProps, '100%', inchQuote);
+		tableMethods.speedBtnClick(up);
+		tableMethods.speedBtnClick(down);
+		tableMethods.speedValChange();
+	});
 })();
 /*TASKS
-* 1) reduce amount of global vars
-* 2) rename some vars
-* 3) to group event listeners
-* 4) complete interface style
-* 5) change speedometer
+* 1) 
+* 2) 
+* 3) 
+* 4) 
+* 5) 
 */
