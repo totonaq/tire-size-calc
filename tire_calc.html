@@ -9,14 +9,32 @@
 </head>
 <body>
 	<div class="calc-wrap">
-		<div class="table-wrap">
+		<div class="logo-wrap">
+			<div class="logo-wrap-img">
+				<img src="images/calc_logo.png" alt="">
+			</div>
+			<h1 class="calc-header">Шинный калькулятор онлайн</h1>
+		</div>
+		
+		<!--<div class="table-wrap">-->
+		<div class="param-wrap">
+		
+			
 			<table id="selections">
 				<tr>
+					<!--<td>
+						
+					</td>-->
 					<th colspan="2">Старый размер</th>
 					<th colspan="2">Новый размер</th>
 				</tr>
 				<tr>
-					<th>Ширина</th>
+					<!--<td rowspan="3">
+						<div class="hint_b">
+							<img src="images/hint_b.png" alt="">
+						</div>
+					</td>-->
+					<th>Ширина протектора (P), мм</th>
 					<td>
 						<select name="w" id="tire_width_old">
 							<option value="135">135</option>
@@ -48,7 +66,7 @@
 							<option value="395">395</option>
 						</select>
 					</td>
-					<th>Ширина</th>
+					<th>Ширина протектора (P), мм</th>
 					<td>
 						<select name="w" id="tire_width_new">
 							<option value="135">135</option>
@@ -82,7 +100,8 @@
 					</td>
 				</tr>
 				<tr>
-					<th>Высота</th>
+					
+					<th>Высота профиля (H), %</th>
 					<td>	
 						<select name="h" id="tire_height_old">
 							<option value="25">25</option>
@@ -103,7 +122,7 @@
 							<option value="100">100</option>
 						</select>
 					</td>
-					<th>Высота</th>
+					<th>Высота профиля (H), %</th>
 					<td>
 						<select name="h" id="tire_height_new">
 							<option value="25">25</option>
@@ -127,7 +146,8 @@
 				</tr>
 
 				<tr>
-					<th>Диаметр диска</th>
+
+					<th>Диаметр диска (R), дюймы</th>
 					<td>
 						<select name="d" id="tire_diameter_old">
 							<option value="12">12</option>
@@ -146,7 +166,7 @@
 							<option value="24">24</option>
 						</select>
 					</td>
-					<th>Диаметр диска</th>
+					<th>Диаметр диска (R), дюймы</th>
 					<td>
 						<select name="d" id="tire_diameter_new">
 							<option value="12">12</option>
@@ -166,140 +186,167 @@
 						</select>
 					</td>
 				</tr>
-				
-				<!--<tr>
-					
-					
-				<td><div class="switcher">
-							<button id="mm">мм</button>
-							<button id="inches">дюймы</button>
-						</div></td>
-					<td colspan="2"><button id="calc_button">Рассчитать</button></td>
-				</tr>-->
+				<tr>
+					<!--<td colspan="3">
+						
+					</td>
+					<td colspan="2"></td>-->
+				</tr>
 			</table>
-
-			<div class="buttons">
-				<button id="calc_button">Сравнить</button>
-				<div class="switcher">
-					<button id="mm">мм</button>
-					<button id="inches">дюймы</button>
-					<div id="switch-bg"></div>
+			<div class="param-hint">
+				<div class="param-hint-text">
+					<p>D - диаметр шины</p>
+					<p>R - диаметр диска</p>
+					<p>H - профиль шины</p>
+					<p>P - ширина протектора шины</p>
+				</div>
+				<div class="param-hint-img">
+					<img src="images/hint_a.png" alt="">
 				</div>
 			</div>
-					
-					
-			<table id="results">
-				<tr>
-					<th>Показатель</th>
-					<th>Старая</th>
-					<th>Новая</th>
-					<th>Разница</th>
-				</tr>
-				<tr id="diameter">
-					<th>Диаметр</th>
-					<td class="measure old"></td>
-					<td class="measure new"></td>
-					<td class="measure diff"></td>
-				</tr>
-				<tr id="width">
-					<th>Ширина</th>
-					<td class="measure old"></td>
-					<td class="measure new"></td>
-					<td class="measure diff"></td>
-				</tr>
-				<tr id="circumference">
-					<th>Длина окружности</th>
-					<td class="measure old"></td>
-					<td class="measure new"></td>
-					<td class="measure diff"></td>
-				</tr>
-				<tr id="sidewall_height">
-					<th>Высота профиля</th>
-					<td class="measure old"></td>
-					<td class="measure new"></td>
-					<td class="measure diff"></td>
-				</tr>
-				<tr id="rev">
-					<th>Оборотов на км</th>
-					<td class="old"></td>
-					<td class="new"></td>
-					<td class="diff"></td>
-				</tr>
-				<tr id="clearence">
-					<th colspan="3">Изменение клиренса</th>
-					
-					<td class="measure diff"></td>
-					
-				</tr>
-				
-					
-			</table>
+			<button id="calc_button">Рассчитать</button>
 			
-		</div>
-		<div class="img-wrap">
-				<div class="img-old">
-					<div class="img-old-side">
-						<img src="images/sideTire.png" alt="">
-						<img class="disc" src="images/disc.png" alt="">
-						<div class="dimension old-diameter">
-							<div class="descr-v"></div>
+			<div class="result-wrap">
+
+				<div class="buttons-table-wrap">
+					<div class="buttons">
+						<div class="switcher">
+							<button id="mm">мм</button>
+							<button id="inches">дюймы</button>
+							<div id="switch-bg"></div>
 						</div>
-						<div class="dimension old-side-height">
-							<div class="descr-h"></div>
+					</div>
+					<table id="results">
+						<tr>
+							<th>Показатель</th>
+							<th>Старое значение</th>
+							<th>Новое значение</th>
+							<th>Разница</th>
+						</tr>
+						<tr id="diameter">
+							<th>Диаметр колеса (D)</th>
+							<td class="old"></td>
+							<td class="new"></td>
+							<td class="diff"></td>
+						</tr>
+						<tr id="width">
+							<th>Ширина протектора шины (P)</th>
+							<td class="old"></td>
+							<td class="new"></td>
+							<td class="diff"></td>
+						</tr>
+						<tr id="circumference">
+							<th>Длина окружности колеса</th>
+							<td class="old"></td>
+							<td class="new"></td>
+							<td class="diff"></td>
+						</tr>
+						<tr id="sidewall_height">
+							<th>Высота профиля (H)</th>
+							<td class="old"></td>
+							<td class="new"></td>
+							<td class="diff"></td>
+						</tr>
+						<tr id="rev">
+							<th>Оборотов на км</th>
+							<td class="old"></td>
+							<td class="new"></td>
+							<td class="diff"></td>
+						</tr>
+						<tr id="clearence">
+							<th colspan="3">Изменение клиренса</th>
+							
+							<td class="diff"></td>
+							
+						</tr>
+						<tr>
+							<td colspan="4" id="result-message"></td>
+						</tr>
+							
+					</table>
+				</div>
+				
+				
+			</div>	
+		</div>
+
+		<div class="img-side">
+			<div class="img-wrap">
+				<div class="img-old">
+					<h2>Старая</h2>
+					<div class="img-old-side">
+						<div class="rubber_side">
+							<div class="disc">
+							</div>
+							<div class="dimension old-diameter">
+								<div class="descr-v"></div>
+							</div>
+							<div class="dimension old-side-height">
+								<div class="descr-h"></div>
+							</div>
 						</div>
 					</div>
 					<div class="img-old-front">
-						<img src="images/frontTire.png" alt="">
-						<div class="dimension old-width">
-							<div class="descr-h"></div>
+						<div class="rubber_front">
+							<div class="dimension old-width">
+								<div class="descr-h"></div>
+							</div>
 						</div>
 					</div>
 				</div>
 				<div class="img-new">
+				
 					<div class="img-new-side">
-						<img src="images/sideTire.png" alt="">
-						<img class="disc" src="images/disc.png" alt="">
-						<div class="dimension new-diameter">
-							<div class="descr-v"></div>
-						</div>
-						<div class="dimension new-side-height">
-							<div class="descr-h"></div>
+						<div class="rubber_side">
+							<div class="disc"></div>
+							<div class="dimension new-diameter">
+								<div class="descr-v"></div>
+							</div>
+							<div class="dimension new-side-height">
+								<div class="descr-h"></div>
+							</div>
 						</div>
 					</div>
 					<div class="img-new-front">
-						<img src="images/frontTire.png" alt="">
-						<div class="dimension new-width">
-							<div class="descr-h"></div>
+						<div class="rubber_front">
+							<div class="dimension new-width">
+								<div class="descr-h"></div>
+							</div>
 						</div>
+						
 					</div>
+				<h2>Новая</h2>
 				</div>
-			</div>
-		<div class="img-speed-wrap">
-			
-			<div class="speed-wrap">
-				<p class="speed-text" id="device-text"></p>
-				<p class="speed-text" id="real-text"></p>
-				<div class="speedometer">
-					<img src="images/speed1.png" alt="">
-					<img id="device-speed" src="images/arrow1.svg" alt="">
-				</div>
+			</div>	
+			<div class="img-speed-wrap">
 				
-				<div class="speedometer">
-					<img src="images/speed1.png" alt="">
-					<img id="real-speed" src="images/arrow1.svg" alt="">
+				<div class="speed-wrap">
+					<p class="speed-text" id="device-text">Фактические показания спидометра, км/ч</p>
+					<p class="speed-text" id="real-text">Реальная скорость, км/ч</p>
+					<div class="speedometer">
+						<img src="images/spd120.png" alt="">
+						<img id="device-speed" src="images/arrow1.svg" alt="">
+					</div>
 					
+					<div class="speedometer">
+						<img src="images/spd120.png" alt="">
+						<img id="real-speed" src="images/arrow1.svg" alt="">
+						
+					</div>
+					<p class="speed-text up">
+						<button id="down">-</button>
+						<input id="device-value" type="text" value="60">
+						<button id="up">+</button>
+					</p>
+					<p class="speed-text" id="real-value"></p>
 				</div>
-				<p class="speed-text up">
-					<button id="down">-</button>
-					<input id="device-value" type="text" value="60">
-					<button id="up">+</button>
-				</p>
-				<p class="speed-text" id="real-value"></p>
 			</div>
-		</div>
-			
-			
+		</div>		
 	</div>
+		
+		
+			
+		
 		
 		<!--<canvas id="tireSide" width="300" height="300"></canvas>
 		
