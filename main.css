@@ -425,6 +425,7 @@ th {
 }
 .rubber_front {
 	background: url(images/rubber_front.png) center center/ 100% 100% no-repeat;
+	margin-left: 100px;
 	position: relative;
 	transition: all .5s ease-in-out
 }
