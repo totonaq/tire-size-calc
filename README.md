@@ -1,2 +1,2 @@
-# Tire-Size-Calc-for-Site
-This is another version of Tire-Size-Calculator
+# Tire Size Calculator
+This is a simple application. Demo is [here](https://github.com/totonaq/Tire-Size-Calculator)
