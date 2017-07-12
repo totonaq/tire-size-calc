@@ -1,0 +1,14 @@
+@media all and (max-width: 1200px) {
+	.param-wrap {
+		width: 100%;
+	}
+	.img-side {
+		width: 100%;
+	}
+	.img-wrap {
+		width: 50%;
+	}
+	.img-speed-wrap {
+		width: 50%;
+	}
+}

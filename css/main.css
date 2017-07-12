@@ -102,11 +102,6 @@ img {
 	border-radius: 10px;*/
 	font-size: 1rem;
 }
-#selections tr:last-child td {
-	
-	padding: 0;
-	
-}
 #selections tr:last-child td:last-child {
 	border: none;
 	text-align: center;
@@ -343,6 +338,13 @@ th {
 	width: 50%;
 }
 .img-side {
+	align-items: center;
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	flex-flow: row wrap;
 	margin: 0 0 0 35px;
 	width: 40%;
 }
@@ -409,7 +411,7 @@ th {
 .rubber_side {
 	-ms-align-items: center;
 	align-items: center;
-	background: url(images/rubber_side.png) center center/ cover no-repeat;
+	background: url(../images/rubber_side.png) center center/ cover no-repeat;
 	display: -webkit-flex;
 	display: -moz-flex;
 	display: -ms-flex;
@@ -420,11 +422,11 @@ th {
 	transition: all .5s ease-in-out
 }
 .disc {
-	background: url(images/disc.png) center center/ cover no-repeat;
+	background: url(../images/disc.png) center center/ cover no-repeat;
 	transition: all .5s ease-in-out
 }
 .rubber_front {
-	background: url(images/rubber_front.png) center center/ 100% 100% no-repeat;
+	background: url(../images/rubber_front.png) center center/ 100% 100% no-repeat;
 	margin-left: 100px;
 	position: relative;
 	transition: all .5s ease-in-out
@@ -497,13 +499,14 @@ th {
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: space-around;
-	
+	margin: auto;
+	max-width: 600px;
 	padding: 15px;
 	width: 100%;
 }
 .speed-wrap .speed-text {
 	font-size: 1rem;
-	padding: 0 0 10px 0;
+	padding: 15px 0 10px 0;
 	text-align: center;
 	width: 50%;
 }
