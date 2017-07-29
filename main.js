@@ -1,5 +1,3 @@
-
-
 (function() {
 "use strict"
 
@@ -7,9 +5,9 @@
 		return document.querySelector(el);
 	}
 	const inch = 25.4,
-		mm = ' мм',
+		
 		inchQuote = '"';
-
+	let mm = document.documentElement.getAttribute('lang') === 'ru' ? ' мм' : ' mm';
 	let measurement = mm;
 
 	let table = qs('#results'),
@@ -44,10 +42,33 @@
 		oldFront = qs('.img-old-front'),
 		newSide = qs('.img-new-side'),
 		newFront = qs('.img-new-front'),
+
+		oldSideTire = oldSide.querySelector('.rubber_side'),
+		oldSideDisc = oldSideTire.querySelector('.disc'),
+		oldFrontTire = oldFront.querySelector('.rubber_front'),
+
+		oldSideTireDescrV = oldSideTire.querySelector('.descr-v'),
+		oldSideTireDescrH = oldSideTire.querySelector('.descr-h'),
+		oldFrontTireDescrH = oldFrontTire.querySelector('.descr-h'),
+
+		newSideTire = newSide.querySelector('.rubber_side'),
+		newSideDisc = newSideTire.querySelector('.disc'),
+		newFrontTire = newFront.querySelector('.rubber_front'),
+
+		newSideTireDescrV = newSideTire.querySelector('.descr-v'),
+		newSideTireDescrH = newSideTire.querySelector('.descr-h'),
+		newFrontTireDescrH = newFrontTire.querySelector('.descr-h'),
+
+		dmsOldHeight = oldSideTire.querySelector('.old-side-height'),
+		dmsNewHeight = newSideTire.querySelector('.new-side-height'),
 	
 		//speed
 		speedometer = qs('.speed-wrap'),
+
+		deviceSpeedDeg = qs('#device-speed'),
+		realSpeedDeg = qs('#real-speed'),
 		deviceSpeedVal = qs('#device-value'),
+		realValue = qs('#real-value'),
 	
 		//buttons
 		mmBtn = qs('#mm'),
@@ -57,13 +78,32 @@
 		up = qs('#up'),
 		down = qs('#down'),
 
+		
 		tableMethods = {
-			msgText: 'Диаметр отличается в пределах 3%',
-			warningTxt: 'Диаметр отличается более чем на 3%. Это опасно!',
+			//msgText: 'Диаметр отличается в пределах 3%',
+			//warningTxt: 'Диаметр отличается более чем на 3%. Это опасно!',
 			imgWidth: 200,
-			diamTxt: 'Диаметр колеса',
-			sideHeightTxt: 'Высота профиля',
-			widthTxt: 'Ширина протектора',
+			diamTxt: function() {
+				if (document.documentElement.getAttribute('lang') === 'ru') {
+					return 'Диаметр колеса';
+				} else {
+					return 'Diameter';
+				}
+			},
+			sideHeightTxt: function() {
+				if (document.documentElement.getAttribute('lang') === 'ru') {
+					return 'Высота профиля';
+				} else {
+					return 'Sidewall';
+				}
+			},
+			widthTxt: function() {
+				if (document.documentElement.getAttribute('lang') === 'ru') {
+					return 'Ширина протектора';
+				} else {
+					return 'Tire width';
+				}
+			},
 			maxSpeed: 120,
 			minSpeed: 0,
 			defaultSpeed: 60,
@@ -83,9 +123,12 @@
 						resMsg.style.backgroundColor = '#21775f';
 						resMsg.innerText = this.msgText;
 					} else {
-						img = '<img src="images/exclamation-mark.svg">';
-						resMsg.style.backgroundColor = '#ff3046';
-						resMsg.innerText = this.warningTxt;
+						if (resMsg) {
+							img = '<img src="images/exclamation-mark.svg">';
+							resMsg.style.backgroundColor = '#ff3046';
+							resMsg.innerText = this.warningTxt;
+						}
+						
 					}	
 				}
 
@@ -197,36 +240,29 @@
 			setImageParams: function() {
 				//set width and height 
 				//to the wrapper layouts of tires
-				oldSide.style.width = newSide.style.width = 
-				oldSide.style.height = newSide.style.height = 
-				oldFront.style.width = newFront.style.width =
-				this.imgWidth + 'px';
-
-				//set dimensions of the old images
-				
-				oldFront.childNodes[1].style.height = 
-					oldSide.childNodes[1].style.width = 
-					oldSide.childNodes[1].style.height = 
+				oldFrontTire.style.height = 
+					oldSideTire.style.width = 
+					oldSideTire.style.height = 
 					this.scaledOldDiam + 'px';
 
-				oldFront.childNodes[1].style.width = 
+				oldFrontTire.style.width = 
 					this.scaledOldWidth + 'px';
 
-				oldSide.childNodes[1].childNodes[1].style.width = 
-					oldSide.childNodes[1].childNodes[1].style.height = 
+				oldSideDisc.style.width = 
+					oldSideDisc.style.height = 
 					this.scaledOldDiscDiam + 'px';
 
 				//set dimensions of the new images
-				newFront.childNodes[1].style.height = 
-					newSide.childNodes[1].style.width = 
-					newSide.childNodes[1].style.height = 
+				newFrontTire.style.height = 
+					newSideTire.style.width = 
+					newSideTire.style.height = 
 					this.scaledNewDiam + 'px';
 
-				newFront.childNodes[1].style.width = 
+				newFrontTire.style.width = 
 					this.scaledNewWidth + 'px';
 
-				newSide.childNodes[1].childNodes[1].style.width =
-					newSide.childNodes[1].childNodes[1].style.height =
+				newSideDisc.style.width =
+					newSideDisc.style.height =
 					this.scaledNewDiscDiam + 'px';
 
 			},
@@ -234,31 +270,31 @@
 			setImageTitles: function() {
 
 				//set values to .descr-v ( < .*-diameter)
-				oldSide.childNodes[1].childNodes[3].childNodes[1].innerText = 
-				this.diamTxt + ' ' + this.convertMeasures(this.oldDiam) + measurement;
-				newSide.childNodes[1].childNodes[3].childNodes[1].innerText = 
-				this.diamTxt + ' ' + this.convertMeasures(this.newDiam) + measurement;
+				oldSideTireDescrV.innerText = 
+				this.diamTxt() + ' ' + this.convertMeasures(this.oldDiam) + measurement;
+				newSideTireDescrV.innerText = 
+				this.diamTxt() + ' ' + this.convertMeasures(this.newDiam) + measurement;
 
 				//set values to .descr-h ( < .*-side-height)
-				oldSide.childNodes[1].childNodes[5].childNodes[1].innerText = 
-				this.sideHeightTxt + ' ' + this.convertMeasures(this.oldHeight) + measurement;
-				newSide.childNodes[1].childNodes[5].childNodes[1].innerText = 
-				this.sideHeightTxt + ' ' + this.convertMeasures(this.newHeight) + measurement;
+				oldSideTireDescrH.innerText = 
+				this.sideHeightTxt() + ' ' + this.convertMeasures(this.oldHeight) + measurement;
+				newSideTireDescrH.innerText = 
+				this.sideHeightTxt() + ' ' + this.convertMeasures(this.newHeight) + measurement;
 
 				//set values to .descr-h ( < .*-width)
-				oldFront.childNodes[1].childNodes[1].childNodes[1].innerText = 
-				this.widthTxt + ' ' + this.convertMeasures(this.oldWidth) + measurement;
-				newFront.childNodes[1].childNodes[1].childNodes[1].innerText = 
-				this.widthTxt + ' ' + this.convertMeasures(this.newWidth) + measurement;
+				oldFrontTireDescrH.innerText = 
+				this.widthTxt() + ' ' + this.convertMeasures(this.oldWidth) + measurement;
+				newFrontTireDescrH.innerText = 
+				this.widthTxt() + ' ' + this.convertMeasures(this.newWidth) + measurement;
 
 			},
 
 			setImageTitlesWidth: function() {
 
-				oldSide.childNodes[1].childNodes[5].style.width = 
+				dmsOldHeight.style.width = 
 					(this.scaledOldDiam - this.scaledOldDiscDiam) / 2 + 'px';
 
-				newSide.childNodes[1].childNodes[5].style.width = 
+				dmsNewHeight.style.width = 
 					(this.scaledNewDiam - this.scaledNewDiscDiam) / 2 + 'px';
 			},
 
@@ -285,11 +321,8 @@
 
 			setSpeedDiff: function() {
 
-				//speedometer.childNodes[1].innerText = this.initSpeedTxt;
-				//speedometer.childNodes[3].innerText = this.realSpeedTxt;
-
-				speedometer.childNodes[9].childNodes[3].value = this.initialSpeed;
-				speedometer.childNodes[11].innerText = this.realSpeed;
+				deviceSpeedVal.value = this.initialSpeed;
+				realValue.innerText = this.realSpeed;
 			},
 
 			getArrowsDeg: function() {
@@ -306,9 +339,9 @@
 
 			setArrowsDeg: function() {
 
-				speedometer.childNodes[5].childNodes[3].style.transform = 
+				deviceSpeedDeg.style.transform = 
 					'rotateZ(' + this.initialDeg + 'deg)';
-				speedometer.childNodes[7].childNodes[3].style.transform = 
+				realSpeedDeg.style.transform = 
 					'rotateZ(' + this.realDeg + 'deg)';
 			},
 
@@ -356,7 +389,7 @@
 				});
 			}, 
 			calc: function() {
-
+				//mm = document.body.getAttribute('lang') === 'ru' ? ' мм' : ' mm';
 				tableMethods.getTableParams();
 				tableMethods.setTableParams();
 

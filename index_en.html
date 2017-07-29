@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<title>Calc</title>
@@ -15,10 +15,10 @@
 			<div class="logo-wrap-img">
 				<img src="images/calc_logo.png" alt="">
 			</div>
-			<h1 class="calc-header">Шинный калькулятор онлайн</h1>
+			<h1 class="calc-header">Tire Size Calculator</h1>
 			<div class="lang-switcher">
-				<a href="index.html" class="rus active">RU</a>
-				<a href="index_en.html" class="eng">EN</a>
+				<a href="index.html" class="rus">RU</a>
+				<a href="index_en.html" class="eng active">EN</a>
 			</div>
 		</div>
 		
@@ -26,12 +26,12 @@
 			<table id="selections">
 				<tr>
 					
-					<th colspan="2">Старый размер</th>
-					<th colspan="2">Новый размер</th>
+					<th colspan="2">Original size</th>
+					<th colspan="2">New size</th>
 				</tr>
 				<tr>
 					
-					<th>Ширина протектора (P), мм</th>
+					<th>Width (P), mm</th>
 					<td>
 						<select name="w" id="tire_width_old">
 							<option value="135">135</option>
@@ -63,7 +63,7 @@
 							<option value="395">395</option>
 						</select>
 					</td>
-					<th>Ширина протектора (P), мм</th>
+					<th>Width (P), mm</th>
 					<td>
 						<select name="w" id="tire_width_new">
 							<option value="135">135</option>
@@ -98,7 +98,7 @@
 				</tr>
 				<tr>
 					
-					<th>Высота профиля (H), %</th>
+					<th>Sidewall (H), %</th>
 					<td>	
 						<select name="h" id="tire_height_old">
 							<option value="25">25</option>
@@ -119,7 +119,7 @@
 							<option value="100">100</option>
 						</select>
 					</td>
-					<th>Высота профиля (H), %</th>
+					<th>Sidewall (H), %</th>
 					<td>
 						<select name="h" id="tire_height_new">
 							<option value="25">25</option>
@@ -144,7 +144,7 @@
 
 				<tr>
 
-					<th>Диаметр диска (R), дюймы</th>
+					<th>Diameter (R), in</th>
 					<td>
 						<select name="d" id="tire_diameter_old">
 							<option value="12">12</option>
@@ -163,7 +163,7 @@
 							<option value="24">24</option>
 						</select>
 					</td>
-					<th>Диаметр диска (R), дюймы</th>
+					<th>Diameter (R), in</th>
 					<td>
 						<select name="d" id="tire_diameter_new">
 							<option value="12">12</option>
@@ -187,66 +187,66 @@
 			</table>
 			<div class="param-hint">
 				<div class="param-hint-text">
-					<p>D - диаметр шины</p>
-					<p>R - диаметр диска</p>
-					<p>H - профиль шины</p>
-					<p>P - ширина протектора шины</p>
+					<p>D - tire diameter</p>
+					<p>R - rim diameter</p>
+					<p>H - sidewall</p>
+					<p>P - width</p>
 				</div>
 				<div class="param-hint-img">
 					<img src="images/hint_a.png" alt="">
 				</div>
 			</div>
-			<button id="calc_button">Рассчитать</button>
+			<button id="calc_button">Compare</button>
 			
 			<div class="result-wrap">
 
 				<div class="buttons-table-wrap">
 					<div class="buttons">
 						<div class="switcher">
-							<button id="mm">мм</button>
-							<button id="inches">дюймы</button>
+							<button id="mm">mm</button>
+							<button id="inches">inches</button>
 							<div id="switch-bg"></div>
 						</div>
 					</div>
 					<table id="results">
 						<tr>
-							<th>Показатель</th>
-							<th>Старое значение</th>
-							<th>Новое значение</th>
-							<th>Разница</th>
+							<th>Parameter</th>
+							<th>Old Value</th>
+							<th>New Value</th>
+							<th>Difference</th>
 						</tr>
 						<tr id="diameter">
-							<th>Диаметр колеса (D)</th>
+							<th>Tire Diameter (D)</th>
 							<td class="old"></td>
 							<td class="new"></td>
 							<td class="diff"></td>
 						</tr>
 						<tr id="width">
-							<th>Ширина протектора шины (P)</th>
+							<th>Tire Width (P)</th>
 							<td class="old"></td>
 							<td class="new"></td>
 							<td class="diff"></td>
 						</tr>
 						<tr id="circumference">
-							<th>Длина окружности колеса</th>
+							<th>Circumference</th>
 							<td class="old"></td>
 							<td class="new"></td>
 							<td class="diff"></td>
 						</tr>
 						<tr id="sidewall_height">
-							<th>Высота профиля (H)</th>
+							<th>Sidewall (H)</th>
 							<td class="old"></td>
 							<td class="new"></td>
 							<td class="diff"></td>
 						</tr>
 						<tr id="rev">
-							<th>Оборотов на км</th>
+							<th>Revs per km</th>
 							<td class="old"></td>
 							<td class="new"></td>
 							<td class="diff"></td>
 						</tr>
 						<tr id="clearence">
-							<th colspan="3">Изменение клиренса</th>
+							<th colspan="3">Clearence</th>
 							
 							<td class="diff"></td>
 							
@@ -265,7 +265,7 @@
 		<div class="img-side">
 			<div class="img-wrap">
 				<div class="img-old">
-					<h2>Старая</h2>
+					<h2>Original</h2>
 					<div class="img-old-side">
 						<div class="rubber_side">
 							<div class="disc">
@@ -307,14 +307,14 @@
 						</div>
 						
 					</div>
-				<h2>Новая</h2>
+				<h2>New</h2>
 				</div>
 			</div>	
 			<div class="img-speed-wrap">
 				
 				<div class="speed-wrap">
-					<p class="speed-text" id="device-text">Фактические показания спидометра, км/ч</p>
-					<p class="speed-text" id="real-text">Реальная скорость, км/ч</p>
+					<p class="speed-text" id="device-text">Speedometer reads: (km/h)</p>
+					<p class="speed-text" id="real-text">Actual speed: (km/h)</p>
 					<div class="speedometer">
 						<img src="images/spd120.png" alt="">
 						<img id="device-speed" src="images/arrow1.svg" alt="">
