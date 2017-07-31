@@ -1,5 +1,7 @@
 body {
 	font: 16px 'Roboto', sans-serif;
+	margin: 0;
+	padding: 0;
 }
 p {
 	margin: 0;
@@ -559,7 +561,19 @@ button#up, button#down {
 	color: #000;
 	font-size: 2rem;
 }
-
+footer {
+	background-color: #eee;
+	margin-top: 50px;
+	padding: 15px;
+	text-align: center;
+}
+footer a {
+	color: #a80040;
+	font-size: 1.2rem;
+	margin: 0 20px;
+	text-decoration: none;
+	text-transform: uppercase;
+}
 /*ANIMATIONS*/
 @-webkit-keyframes changeIn {
 	from { 

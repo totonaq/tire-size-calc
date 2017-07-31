@@ -114,7 +114,7 @@
 				let diff, sign, img = '', msr = measurement;
 				let percent = this.setPercentage(oldValue, newValue);
 
-				oldValue - newValue >= 0 ? sign = '' : sign = '+';
+				sign = oldValue - newValue >= 0 ? '' : sign = '+';
 				if (percent === 0) sign = '';
 
 				if (selector === diameter) {
@@ -159,7 +159,7 @@
 			},
 
 			setPercentage: function(a, b) {
-				return Math.round(-(a - b) / a * 100);
+				return Math.round((b - a) / a * 100);
 			},
 
 			convertMeasures: function(arg) {
@@ -240,6 +240,11 @@
 			setImageParams: function() {
 				//set width and height 
 				//to the wrapper layouts of tires
+				oldSide.style.width = newSide.style.width = 
+				oldSide.style.height = newSide.style.height = 
+				oldFront.style.width = newFront.style.width =
+				this.imgWidth + 'px';
+
 				oldFrontTire.style.height = 
 					oldSideTire.style.width = 
 					oldSideTire.style.height = 
