@@ -20,7 +20,7 @@
 	button#calc_button {
 		width: auto;
 	}
-	.img-old-side, .img-new-side {
+	.img-old > div, .img-new > div {
 		margin-bottom: 50px;
 	}
 	.rubber_front {
