@@ -120,10 +120,6 @@ img {
 	border-radius: 10px;*/
 	font-size: 1rem;
 }
-#selections tr:last-child td:last-child {
-	border: none;
-	text-align: center;
-}
 #selections tr:last-child td img {
 	width: 100%;
 }
